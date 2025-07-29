@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="hu" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profi Autószerviz - Prémium Szolgáltatások és Időpontfoglalás</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Titillium+Web:wght@600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* gray-900 */
+            color: #d1d5db; /* gray-300 */
+        }
+        .font-title {
+            font-family: 'Titillium Web', sans-serif;
+        }
+        .glass-nav {
+            background-color: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .hero-gradient-text {
+            background: linear-gradient(to right, #facc15, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .service-card {
+            background-color: #1f2937; /* gray-800 */
+            border: 1px solid #374151; /* gray-700 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-color: #facc15;
+        }
+        .testimonial-card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+        }
+        .booking-service-card.selected {
+            background-color: #ca8a04;
+            color: #1f2937;
+            border-color: #facc15;
+        }
+        .time-slot-btn.selected {
+            background-color: #ca8a04;
+            color: #1f2937;
+            font-weight: 600;
+        }
+        .sticky-summary {
+            position: sticky;
+            top: 6rem; /* Adjust for nav height */
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header" class="glass-nav sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-title tracking-wider text-white">
+                <span class="text-yellow-400">PROFI</span>SZERVÍZ
+            </a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                <a href="#szolgaltatasok" class="hover:text-yellow-400 transition duration-300">Szolgáltatások</a>
+                <a href="#rolunk" class="hover:text-yellow-400 transition duration-300">Rólunk</a>
+                <a href="#velemenyek" class="hover:text-yellow-400 transition duration-300">Vélemények</a>
+                <a href="#foglalas" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-5 rounded-md transition duration-300">Időpontfoglalás</a>
+            </nav>
+            <button class="md:hidden text-white" id="mobile-menu-button">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+             <a href="#szolgaltatasok" class="block py-2 hover:text-yellow-400">Szolgáltatások</a>
+             <a href="#rolunk" class="block py-2 hover:text-yellow-400">Rólunk</a>
+             <a href="#velemenyek" class="block py-2 hover:text-yellow-400">Vélemények</a>
+             <a href="#foglalas" class="block mt-2 bg-yellow-500 text-center text-gray-900 font-bold py-2 px-5 rounded-md">Időpontfoglalás</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center justify-center text-center text-white px-6 -mt-20 pt-20">
+            <div class="absolute inset-0 bg-black/70 z-10"></div>
+            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-mechanic-in-a-garage-2232-large.mp4" type="video/mp4">
+                [Videó egy autószerelőről munka közben]
+            </video>
+            <div class="relative z-20 fade-in-section is-visible">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black font-title uppercase">
+                    Gondoskodás<br>Minden <span class="hero-gradient-text">Részletre</span>
+                </h1>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto my-8">Szakértő csapatunk a legmodernebb technológiával áll az Ön rendelkezésére. Tapasztalja meg a prémium autószerviz élményét.</p>
+                <a href="#foglalas" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-4 px-10 rounded-lg text-lg transition duration-300 transform hover:scale-105">Időpontot Foglalok</a>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="szolgaltatasok" class="py-20 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-section">
+                    <h2 class="text-4xl font-bold text-white font-title">Szolgáltatásaink</h2>
+                    <p class="text-gray-400 mt-2 max-w-2xl mx-auto">Legyen szó rutin karbantartásról vagy komplex javításról, nálunk a legjobb kezekben van gépjárműve.</p>
+                </div>
+                <div id="service-card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Service cards injected by JS -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Us Section -->
+        <section id="rolunk" class="py-20">
+            <div class="container mx-auto px-6">
+                 <div class="flex flex-col lg:flex-row items-center gap-12 fade-in-section">
+                    <div class="lg:w-1/2">
+                        <img src="https://placehold.co/600x400/1f2937/facc15?text=Csapatunk" alt="A Profi Szervíz csapata" class="rounded-lg shadow-2xl">
+                    </div>
+                    <div class="lg:w-1/2">
+                        <h2 class="text-4xl font-bold text-white font-title mb-4">Miért Válasszon Minket?</h2>
+                        <p class="text-gray-400 mb-6">Több mint 15 év tapasztalattal a hátunk mögött, küldetésünk, hogy ügyfeleinknek ne csak egy szolgáltatást, hanem teljes körű, megbízható megoldást nyújtsunk. A bizalom és a minőség a két legfontosabb alapelvünk.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-yellow-400 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div><h3 class="font-semibold text-white">Tapasztalt Szakemberek</h3><p class="text-gray-400 text-sm">Márkafüggetlen, magasan képzett szerelőink folyamatosan képzik magukat.</p></div>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-yellow-400 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div><h3 class="font-semibold text-white">Modern Felszerelés</h3><p class="text-gray-400 text-sm">A legújabb diagnosztikai eszközökkel és célszerszámokkal dolgozunk.</p></div>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-yellow-400 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div><h3 class="font-semibold text-white">Ügyfélközpontúság</h3><p class="text-gray-400 text-sm">Átlátható árajánlatok, folyamatos kommunikáció és garancia a munkánkra.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="velemenyek" class="py-20 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-section">
+                    <h2 class="text-4xl font-bold text-white font-title">Amit Ügyfeleink Mondanak</h2>
+                    <p class="text-gray-400 mt-2">Büszkék vagyunk az elégedett ügyfeleinkre.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-section">
+                    <!-- Testimonial cards -->
+                    <div class="testimonial-card p-6 rounded-lg">
+                        <p class="text-gray-300 mb-4">"Végre egy szerviz, ahol tényleg értenek az autókhoz és nem akarnak lehúzni. Profi, gyors és korrekt csapat. Csak ajánlani tudom!"</p>
+                        <div class="flex items-center">
+                            <img class="w-12 h-12 rounded-full mr-4" src="https://placehold.co/100x100/374151/fde047?text=KJ" alt="Kovács János">
+                            <div>
+                                <p class="font-semibold text-white">Kovács János</p>
+                                <p class="text-sm text-yellow-400">Audi A6</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card p-6 rounded-lg">
+                        <p class="text-gray-300 mb-4">"A klímám nem működött, máshol már lemondtak róla. Itt egy óra alatt megcsinálták, azóta is tökéletes. Nagyon köszönöm!"</p>
+                        <div class="flex items-center">
+                            <img class="w-12 h-12 rounded-full mr-4" src="https://placehold.co/100x100/374151/fde047?text=NE" alt="Nagy Erika">
+                            <div>
+                                <p class="font-semibold text-white">Nagy Erika</p>
+                                <p class="text-sm text-yellow-400">BMW 3-as sorozat</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card p-6 rounded-lg">
+                        <p class="text-gray-300 mb-4">"Online foglaltam időpontot műszaki vizsgára. Minden gördülékenyen ment, pontosak voltak és kedvesek. 5 csillag!"</p>
+                        <div class="flex items-center">
+                            <img class="w-12 h-12 rounded-full mr-4" src="https://placehold.co/100x100/374151/fde047?text=VT" alt="Varga Tamás">
+                            <div>
+                                <p class="font-semibold text-white">Varga Tamás</p>
+                                <p class="text-sm text-yellow-400">Volkswagen Passat</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section id="foglalas" class="py-20">
+            <div class="text-center mb-12 fade-in-section">
+                <h2 class="text-4xl font-bold text-white font-title">Foglaljon Időpontot Online</h2>
+                <p class="text-gray-400 mt-2 max-w-2xl mx-auto">Válassza ki a szolgáltatást és a megfelelő időpontot. A többit bízza ránk!</p>
+            </div>
+            <div class="container mx-auto px-6 lg:grid lg:grid-cols-3 lg:gap-12 fade-in-section">
+                <!-- Form Column -->
+                <div class="lg:col-span-2">
+                    <form id="booking-form" class="space-y-10">
+                        <!-- Service Selection -->
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-4">1. Szolgáltatás Kiválasztása</h3>
+                            <div id="booking-service-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+                        </div>
+                        <!-- Vehicle Details -->
+                        <div>
+                           <h3 class="text-xl font-bold text-white mb-4">2. Jármű Adatai</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                                <input type="text" id="car-make" placeholder="Márka (pl. Audi)" class="bg-gray-800 border-2 border-gray-700 rounded-lg p-3 focus:border-yellow-500 focus:ring-0 transition">
+                                <input type="text" id="car-model" placeholder="Modell (pl. A4)" class="bg-gray-800 border-2 border-gray-700 rounded-lg p-3 focus:border-yellow-500 focus:ring-0 transition">
+                                <input type="number" id="car-year" placeholder="Évjárat (pl. 2020)" class="bg-gray-800 border-2 border-gray-700 rounded-lg p-3 focus:border-yellow-500 focus:ring-0 transition">
+                                <input type="text" id="car-vin" placeholder="Rendszám (opcionális)" class="bg-gray-800 border-2 border-gray-700 rounded-lg p-3 focus:border-yellow-500 focus:ring-0 transition">
+                            </div>
+                        </div>
+                        <!-- Date & Time -->
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-4">3. Időpont Kiválasztása</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <input type="text" id="datepicker" placeholder="Válasszon dátumot..." class="bg-gray-800 border-2 border-gray-700 rounded-lg p-3 w-full">
+                                <div id="time-slots-container" class="space-y-3"><p class="text-gray-500">Először válasszon dátumot.</p></div>
+                            </div>
+                        </div>
+                        <!-- Personal Details -->
+                        <div>
+                           <h3 class="text-xl font-bold text-white mb-4">4. Személyes Adatok</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                                <input type="text" id="user-name" placeholder="Teljes név" class="bg-gray-800 border-2 border-gray-700 rounded-lg p-3 focus:border-yellow-500 focus:ring-0 transition">
+                                <input type="email" id="user-email" placeholder="Email cím" class="bg-gray-800 border-2 border-gray-700 rounded-lg p-3 focus:border-yellow-500 focus:ring-0 transition">
+                                <input type="tel" id="user-phone" placeholder="Telefonszám" class="bg-gray-800 border-2 border-gray-700 rounded-lg p-3 focus:border-yellow-500 focus:ring-0 transition">
+                                <textarea id="user-notes" placeholder="Megjegyzés (opcionális)..." rows="2" class="sm:col-span-2 bg-gray-800 border-2 border-gray-700 rounded-lg p-3 focus:border-yellow-500 focus:ring-0 transition"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Summary Column -->
+                <div class="lg:col-span-1 mt-12 lg:mt-0">
+                    <div class="sticky-summary bg-gray-800 rounded-xl p-6 border border-gray-700">
+                        <h3 class="text-2xl font-bold text-white mb-6">Foglalás Összegzése</h3>
+                        <div id="summary-content" class="space-y-4 text-gray-400 min-h-[150px]">
+                            <p id="summary-services">Válasszon szolgáltatást...</p>
+                            <p id="summary-vehicle">Adja meg a jármű adatait...</p>
+                            <p id="summary-datetime">Válasszon időpontot...</p>
+                        </div>
+                        <div class="border-t border-gray-700 my-6"></div>
+                        <button id="submit-btn" class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-4 rounded-lg transition duration-300 text-lg">Foglalás Véglegesítése</button>
+                        <p id="submit-error" class="text-red-400 text-center mt-4 hidden">Kérjük, töltse ki az összes kötelező mezőt!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="kapcsolat" class="bg-gray-900/50 border-t border-gray-800">
+        <div class="container mx-auto px-6 py-10 text-center">
+            <h3 class="text-2xl font-title tracking-wider text-white mb-4"><span class="text-yellow-400">PROFI</span>SZERVÍZ</h3>
+            <p class="mb-2">1234 Minta Város, Szerviz utca 5. | info@profiszerviz.hu | +36 30 123 4567</p>
+            <p class="text-sm text-gray-500">&copy; 2025 Profi Szervíz. Minden jog fenntartva.</p>
+        </div>
+    </footer>
+    
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-xl p-8 text-center max-w-md w-full border border-gray-700 transform transition-all scale-95 opacity-0" id="success-modal-content">
+            <svg class="w-16 h-16 mx-auto text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h2 class="text-2xl font-bold text-white mb-2">Sikeres Foglalás!</h2>
+            <p class="text-gray-300 mb-4">Köszönjük! Hamarosan küldünk egy megerősítő emailt a foglalás részleteivel.</p>
+            <p class="text-gray-400">Lefoglalt időpont: <strong id="final-appointment-time" class="text-yellow-400"></strong></p>
+            <button id="close-modal-btn" class="mt-6 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-2 px-6 rounded-lg transition duration-300">Bezárás</button>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DATA ---
+        const services = [
+            { id: 'olajcsere', name: 'Olajcsere', desc: 'Motorolaj és szűrők cseréje a motor hosszú élettartamáért.', icon: 'M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.657 7.343A8 8 0 0117.657 18.657z' },
+            { id: 'fekjavitas', name: 'Fékjavítás', desc: 'Fékbetétek, féktárcsák ellenőrzése és cseréje a biztonságért.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+            { id: 'diagnosztika', name: 'Diagnosztika', desc: 'Hibakódok kiolvasása és elektromos problémák feltárása.', icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3m-2-5a2 2 0 104 0 2 2 0 00-4 0z' },
+            { id: 'futomu', name: 'Futómű Állítás', desc: 'Modern, 3D-s technológiával a tökéletes úttartásért.', icon: 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8' },
+            { id: 'klima', name: 'Klíma Karbantartás', desc: 'Klímatöltés, tisztítás és fertőtlenítés a friss levegőért.', icon: 'M5 12h14M12 5l7 7-7 7' },
+            { id: 'muszaki', name: 'Műszaki Vizsga', desc: 'Teljes körű felkészítés és ügyintézés a sikeres vizsgáért.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+            { id: 'gumicsere', name: 'Gumiszerelés', desc: 'Szezonális gumicsere, centrírozás és javítás.', icon: 'M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+            { id: 'egyeb', name: 'Egyéb Javítások', desc: 'Motor, váltó és egyéb mechanikai problémák javítása.', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
+        ];
+        const timeSlotsData = ["08:00", "09:30", "11:00", "13:00", "14:30", "16:00"];
+
+        // --- STATE ---
+        const bookingData = { services: [], vehicle: {}, dateTime: {}, personal: {} };
+
+        // --- ELEMENTS ---
+        const serviceCardContainer = document.getElementById('service-card-container');
+        const bookingServiceContainer = document.getElementById('booking-service-container');
+        const formInputs = { make: document.getElementById('car-make'), model: document.getElementById('car-model'), year: document.getElementById('car-year'), name: document.getElementById('user-name'), email: document.getElementById('user-email'), phone: document.getElementById('user-phone') };
+        const summaryElements = { services: document.getElementById('summary-services'), vehicle: document.getElementById('summary-vehicle'), datetime: document.getElementById('summary-datetime') };
+        const submitBtn = document.getElementById('submit-btn');
+        const timeSlotsContainer = document.getElementById('time-slots-container');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // --- INITIALIZATION ---
+        
+        // Populate service cards on top section
+        serviceCardContainer.innerHTML = services.map(s => `
+            <div data-service-id="${s.id}" class="service-card p-6 rounded-lg text-center cursor-pointer fade-in-section">
+                <svg class="w-12 h-12 mx-auto text-yellow-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="${s.icon}"></path></svg>
+                <h3 class="text-xl font-bold text-white mb-2">${s.name}</h3>
+                <p class="text-sm text-gray-400">${s.desc}</p>
+            </div>
+        `).join('');
+
+        // Populate service selection in booking form
+        bookingServiceContainer.innerHTML = services.map(s => `
+            <button type="button" data-id="${s.id}" data-name="${s.name}" class="booking-service-card text-center p-3 bg-gray-800 border-2 border-gray-700 rounded-lg hover:border-yellow-500 transition duration-200">
+                <span class="font-semibold text-sm">${s.name}</span>
+            </button>
+        `).join('');
+
+        const datepicker = flatpickr("#datepicker", {
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            disable: [date => (date.getDay() === 0 || date.getDay() === 6)],
+            onChange: (selectedDates, dateStr) => {
+                bookingData.dateTime.date = dateStr;
+                populateTimeSlots();
+                updateSummary();
+            }
+        });
+
+        // --- EVENT LISTENERS ---
+        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        
+        serviceCardContainer.addEventListener('click', e => {
+            const card = e.target.closest('.service-card');
+            if(!card) return;
+            const serviceId = card.dataset.serviceId;
+            
+            // Scroll to booking form
+            document.getElementById('foglalas').scrollIntoView();
+            
+            // Select the service in the booking form
+            const bookingCard = document.querySelector(`.booking-service-card[data-id="${serviceId}"]`);
+            if(bookingCard && !bookingCard.classList.contains('selected')) {
+                bookingCard.click();
+            }
+        });
+
+        bookingServiceContainer.addEventListener('click', e => {
+            const card = e.target.closest('.booking-service-card');
+            if (!card) return;
+            card.classList.toggle('selected');
+            const serviceId = card.dataset.id;
+            const serviceName = card.dataset.name;
+            if (card.classList.contains('selected')) {
+                bookingData.services.push({ id: serviceId, name: serviceName });
+            } else {
+                bookingData.services = bookingData.services.filter(s => s.id !== serviceId);
+            }
+            updateSummary();
+        });
+
+        timeSlotsContainer.addEventListener('click', e => {
+            const button = e.target.closest('.time-slot-btn');
+            if (!button) return;
+            document.querySelectorAll('.time-slot-btn').forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            bookingData.dateTime.time = button.dataset.time;
+            updateSummary();
+        });
+
+        Object.values(formInputs).forEach(input => input.addEventListener('input', updateSummary));
+        submitBtn.addEventListener('click', handleSubmit);
+        document.getElementById('close-modal-btn').addEventListener('click', () => location.reload());
+
+        // --- FUNCTIONS ---
+        function populateTimeSlots() {
+            const availableSlots = timeSlotsData.filter(() => Math.random() > 0.2);
+            if (availableSlots.length > 0) {
+                timeSlotsContainer.innerHTML = `<div class="grid grid-cols-2 sm:grid-cols-3 gap-2">${availableSlots.map(slot => `<button type="button" data-time="${slot}" class="time-slot-btn p-2 border border-gray-600 rounded-lg hover:border-yellow-500 transition duration-200">${slot}</button>`).join('')}</div>`;
+            } else {
+                timeSlotsContainer.innerHTML = `<p class="text-gray-500">Erre a napra sajnos nincsenek szabad időpontok.</p>`;
+            }
+        }
+
+        function updateSummary() {
+            // Services
+            summaryElements.services.innerHTML = bookingData.services.length > 0 ? `<strong>Szolgáltatások:</strong><br>${bookingData.services.map(s => s.name).join(', ')}` : 'Válasszon szolgáltatást...';
+            // Vehicle
+            bookingData.vehicle = { make: formInputs.make.value, model: formInputs.model.value, year: formInputs.year.value };
+            summaryElements.vehicle.innerHTML = (bookingData.vehicle.make && bookingData.vehicle.model) ? `<strong>Jármű:</strong><br>${bookingData.vehicle.make} ${bookingData.vehicle.model} (${bookingData.vehicle.year || 'N/A'})` : 'Adja meg a jármű adatait...';
+            // Date & Time
+            if (bookingData.dateTime.date && bookingData.dateTime.time) {
+                summaryElements.datetime.innerHTML = `<strong>Időpont:</strong><br><span class="text-yellow-400">${bookingData.dateTime.date} - ${bookingData.dateTime.time}</span>`;
+            } else if (bookingData.dateTime.date) {
+                summaryElements.datetime.innerHTML = `<strong>Dátum:</strong><br>${bookingData.dateTime.date} (Válasszon idősávot)`;
+            } else {
+                summaryElements.datetime.textContent = 'Válasszon időpontot...';
+            }
+            // Personal info
+            bookingData.personal = { name: formInputs.name.value, email: formInputs.email.value, phone: formInputs.phone.value };
+        }
+
+        function validateForm() {
+            let isValid = true;
+            if (bookingData.services.length === 0) isValid = false;
+            if (!bookingData.vehicle.make || !bookingData.vehicle.model || !bookingData.vehicle.year) isValid = false;
+            if (!bookingData.dateTime.date || !bookingData.dateTime.time) isValid = false;
+            if (!bookingData.personal.name || !bookingData.personal.email || !bookingData.personal.phone) isValid = false;
+            return isValid;
+        }
+
+        function handleSubmit() {
+            const errorEl = document.getElementById('submit-error');
+            if (validateForm()) {
+                errorEl.classList.add('hidden');
+                console.log('Form Submitted:', bookingData);
+                showSuccessModal();
+            } else {
+                errorEl.classList.remove('hidden');
+            }
+        }
+        
+        function showSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            const modalContent = document.getElementById('success-modal-content');
+            document.getElementById('final-appointment-time').textContent = `${bookingData.dateTime.date} - ${bookingData.dateTime.time}`;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => modalContent.classList.remove('scale-95', 'opacity-0'), 50);
+        }
+
+        // Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    });
+    </script>
+</body>
+</html>
